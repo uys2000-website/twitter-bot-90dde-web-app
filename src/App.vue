@@ -1,30 +1,29 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <router-view />
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { auth } from './services/firebase/Authentication';
+
+export default defineComponent({
+  name: 'App',
+  mounted() {
+    auth.beforeAuthStateChanged((user) => {
+      if (user) this.$router.push({ name: "HomeView" })
+      else this.$router.push({ name: "LoginView" })
+    })
+  }
+})
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  padding: 0;
+  margin: 0;
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+a {
+  color: inherit;
+  text-decoration: inherit;
 }
 </style>
